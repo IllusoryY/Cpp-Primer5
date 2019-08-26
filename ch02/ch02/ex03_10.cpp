@@ -6,7 +6,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-int main() {
+int main10() {
 	cout << "Enter a string of characters including punctuation." << endl;
 	for (string s; getline(cin, s); cout << endl)
 		for (auto i : s)
