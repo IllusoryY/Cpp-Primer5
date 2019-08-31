@@ -3,7 +3,7 @@
 using std::cout;
 using std::endl;
 
-int main() {
+int main28() {
 	// void type
 	cout << "void: nullptr_t\t" << sizeof(std::nullptr_t) << " bytes" << endl << endl;
 
