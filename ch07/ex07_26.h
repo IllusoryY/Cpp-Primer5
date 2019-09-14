@@ -13,15 +13,15 @@ struct Sales_data
     friend ostream& print(ostream&,const Sales_data&);
     //构造函数
     Sales_data() = default;
-    Sales_data::Sales_data(const string& s):bookNo(s){}
-    Sales_data::Sales_data(const string& s, unsigned u, double p):bookNo(s),units_sold(u),revenue(p * u){}
-    Sales_data::Sales_data(istream& is)
+    Sales_data(const string& s):bookNo(s){}
+    Sales_data(const string& s, unsigned u, double p):bookNo(s),units_sold(u),revenue(p * u){}
+    Sales_data(istream& is)
     {
         read(is, *this);
     }
 
     string isbn() const   {return bookNo;}
-    Sales_data& combine(const Sales_data& item;
+    Sales_data& combine(const Sales_data& item);
 private:
     inline double avg_price() const;
 private: 
@@ -39,7 +39,7 @@ Sales_data& Sales_data::combine(const Sales_data& item)
 }
 inline double Sales_data::avg_price() const
 {
-    return units_sold ? revenur / units_sold : 0;
+    return units_sold ? revenue / units_sold : 0;
 }
 
 //nonmember function
