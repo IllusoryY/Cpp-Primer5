@@ -1,17 +1,17 @@
-#include"Query.h"
+#include"ex12_32.h"
 
-TextQuery::TextQuery(ifstream& ifs) : svec(new vector<string>)
+TextQuery::TextQuery(ifstream& ifs) : svec(std::make_shared<vector<string>>())
 {
     lineNo lineno(1);
     //逐行读入文本,单词的行号插入
-    for(string line, word; getline(ifs, line); ++lineno)
+    for(string line, word, text; getline(ifs, line); ++lineno)
     {
         svec->push_back(line);
-        for(istringstream is(line); is >> word; )
+        for(istringstream is(line); is >> word; text.clear())
         {
-            std::remove_if(word.begin(), word.end(), ispunct);
+            std::remove_copy_if(word.begin(), word.end(), std::back_inserter(text), ispunct);
             //mss[word]->insert(lineno);   
-            auto& nos = mss[word];
+            auto& nos = mss[text];
             if(!nos) nos.reset(new set<lineNo>);
             nos->insert(lineno);
         }
