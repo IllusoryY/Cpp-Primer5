@@ -1,5 +1,6 @@
 #include"ex13_34.h"
 
+//Message implementation
 void Message::save(Folder& f)
 {
     folders.insert(&f);
@@ -47,16 +48,63 @@ Message& Message::operator=(const Message& rhs)
 void swap(Message& lhs, Message& rhs)
 {
     using std::swap;
-    for(auto f : lhs.folders)
-        f->remMsg(&lhs);
-    for(auto f : rhs.folders)
-        f->remMsg(&rhs);
+    lhs.remove_from_Folders();
+    rhs.remove_from_Folders();
+
     swap(lhs.folders, rhs.folders);
     swap(lhs.contents, rhs.contents);
 
-    for(auto f : lhs.folders)
-        f->addMsg(&lhs);
-    for(auto f : rhs.folders)
-        f->addMsg(&rhs);
+    lhs.add_to_Folders(lhs);
+    rhs.add_to_Folders(rhs);
 }
 
+//Folder implemetation
+
+void swap(Folder& lhs, Folder& rhs)
+{
+    using std::swap;
+    lhs.remove_from_Message();
+    rhs.remove_from_Message();
+
+    swap(lhs.msgs, rhs.msgs);
+    
+    lhs.add_to_Message(lhs);
+    rhs.add_to_Message(rhs);
+}
+
+
+void Folder::add_to_Message(const Folder& f)
+{
+    for(auto m : f.msgs)
+        m->addFldr(this);
+}
+
+Folder::Folder(const Folder&f)
+    :msgs(f.msgs)
+{
+    add_to_Message(f);
+}
+
+void Folder::remove_from_Message()
+{
+    for(auto m : msgs)
+        m->remFldr(this);
+}
+
+Folder::~Folder()
+{
+    remove_from_Message();
+}
+
+Folder& Folder::operator=(const Folder& rhs)
+{
+    remove_from_Message();
+    msgs = rhs.msgs;
+    add_to_Message(rhs);
+    return *this;
+}
+
+int main()
+{
+    return 0;
+}
